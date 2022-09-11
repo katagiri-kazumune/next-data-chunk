@@ -8,7 +8,7 @@ dependencies {
     implementation("org.seasar.doma:doma-core:${domaVersion}")
     implementation("org.seasar.doma:doma-slf4j:${domaVersion}")
 
-    implementation(project(":metropolis-data-chunk"))
+    implementation(project(":next-data-chunk"))
 }
 
 val javaLanguageVersion: JavaLanguageVersion = JavaLanguageVersion.of(11)
