@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
+/** トークンのエンコーダー. */
 @Slf4j
 public class PaginationTokenEncoder {
 

@@ -7,6 +7,14 @@ import java.util.function.Function;
 
 public class ChunkUtils {
 
+  /**
+   * Dao の結果を Chunk に変換.
+   *
+   * @param chunkable Chunkable パラメータ
+   * @param function dao のfunction。ChunkableSqlParameter 以外は呼び出し元で設定してください。
+   * @return 生成 Chunk
+   * @param <T> Chunk の要素
+   */
   public static <T extends ChunkElement> Chunk<T> buildChunk(
       Chunkable chunkable, Function<ChunkableSqlParameter, List<T>> function) {
     var sqlParameter = chunkable.getSqlParameter();
@@ -14,7 +22,7 @@ public class ChunkUtils {
 
     if (sqlParameter.hasBefore()) {
       // before の場合、SQL の結果に対してソートを行う
-      // Doma2 で SQL ステートメントをまたいだ if 文がかけないので、逆にソートする場合は Java 側で行う
+      // Doma2 で SQL ステートメントをまたいだ if 文がかけないので、さらにソートする場合は Java 側で行う
       result = additionalSort(sqlParameter, result);
     }
     return new Chunk<>(result, chunkable);

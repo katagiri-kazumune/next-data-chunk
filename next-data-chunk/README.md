@@ -2,6 +2,9 @@
 
 chunk は Utils 経由で実現します。
 
+chunk で絞り込みやソート順に使う key は、
+「unique な 単一カラム」です。
+
 # class 概要
 
 - Chunkable

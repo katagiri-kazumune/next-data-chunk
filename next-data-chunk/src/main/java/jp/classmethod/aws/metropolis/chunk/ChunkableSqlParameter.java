@@ -1,6 +1,5 @@
 package jp.classmethod.aws.metropolis.chunk;
 
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Value;
@@ -12,7 +11,7 @@ public class ChunkableSqlParameter {
   public static final PaginationTokenEncoder ENCODER = new PaginationTokenEncoder();
 
   /** 指定したソート順. */
-  String direction;
+  Direction direction;
   /** prev 時に使用する ID 項目の値. */
   String before;
   /** next 時に使用する ID 項目の値. */
@@ -21,10 +20,15 @@ public class ChunkableSqlParameter {
   int size;
   /** 発行する SQL でのソート順. */
   String sortOrder;
-  
+
+  /** ID 項目の比較演算子. */
+  String idComparisonOperator;
+
+  /** ID 項目の比較値. */
+  String idComparisonValue;
+
   public static ChunkableSqlParameter of(Chunkable chunkable) {
 
-    var ascending = chunkable.getDirection() == null || chunkable.getDirection() == Direction.ASC;
     var forward = isForward(chunkable.getPaginationRelation());
 
     var paginationToken = chunkable.getPaginationToken();
@@ -38,21 +42,45 @@ public class ChunkableSqlParameter {
       }
     }
 
-    String direction = null;
-    if (ascending == false) {
-      direction = chunkable.getDirection().name();
-    }
-    return new ChunkableSqlParameter(direction, before, after, chunkable.getMaxPageSize(), buildSortOrder(before, direction));
+    Direction direction = chunkable.getDirection();
+    return new ChunkableSqlParameter(
+        direction,
+        before,
+        after,
+        chunkable.getMaxPageSize(),
+        buildSortOrder(before, direction),
+        buildIdComparisonOperator(before, after, direction),
+        buildIdComparisonValue(before, after));
   }
 
-  private static String buildSortOrder(String before, String direction) {
-    if(direction == null || Objects.equals(direction, "ASC")) {
+  private static String buildSortOrder(String before, Direction direction) {
+    if (direction == null || direction == Direction.ASC) {
       // direction が ASC 相当
       return before == null ? "ASC" : "DESC";
     }
-    
+
     // direction が DESC 相当
     return before != null ? "ASC" : "DESC";
+  }
+
+  private static String buildIdComparisonOperator(
+      String before, String after, Direction direction) {
+    if (after != null) {
+      return (direction == Direction.DESC) == false ? ">" : "<";
+    }
+
+    if (before != null) {
+      return (direction == Direction.DESC) == false ? "<" : ">";
+    }
+
+    return null;
+  }
+
+  private static String buildIdComparisonValue(String before, String after) {
+    if (after != null) {
+      return after;
+    }
+    return before;
   }
 
   private static boolean isForward(PaginationRelation paginationRelation) {
@@ -67,6 +95,6 @@ public class ChunkableSqlParameter {
     if (hasBefore() == false) {
       throw new IllegalArgumentException("invalid before value");
     }
-    return Objects.equals(direction, "DESC") == false;
+    return (direction == Direction.DESC) == false;
   }
 }

@@ -13,3 +13,19 @@
 
 ## SQL 説明
 
+判定文を Java 側に押し込みました。
+
+```sql
+SELECT *
+FROM fruits f
+
+WHERE
+    /*%if chunkable.idComparisonValue != null */
+          AND f.fruit_id /*#chunkable.idComparisonOperator*/ /*chunkable.idComparisonValue*/'fruit_id_001'
+    /*%end*/
+ORDER BY f.fruit_id /*#chunkable.sortOrder*/
+
+LIMIT /*chunkable.size*/10
+```
+
+chunkable は、chunk 形式で取得する時の Dao のパラメータ(ChunkableSqlParameter)と名前をあわせてください。

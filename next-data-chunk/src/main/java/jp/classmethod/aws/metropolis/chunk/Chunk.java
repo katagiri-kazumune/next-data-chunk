@@ -9,15 +9,27 @@ import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * Chunk.
+ *
+ * @param <T> Chunk の要素
+ */
 @EqualsAndHashCode(exclude = "chunkable")
 public class Chunk<T extends ChunkElement> {
 
   public static final PaginationTokenEncoder ENCODER = new PaginationTokenEncoder();
 
+  /** Chunk の要素. */
   @JsonProperty private final List<T> content = new ArrayList<>();
 
+  /**
+   * トークン.
+   *
+   * <p>この Chunk の次 or 前の Chunk を取得する時に使用。 Chunk の要素が空の時、null を設定します。
+   */
   @JsonProperty @Getter private final String paginationToken;
 
+  /** Chunk 要素取得時のパラメータ. */
   @JsonIgnore @Getter private final Chunkable chunkable;
 
   public Chunk(List<T> content, Chunkable chunkable) {
