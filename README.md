@@ -1,23 +1,10 @@
-Simple Examples [![Java CI with Gradle](https://github.com/domaframework/simple-examples/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/domaframework/simple-examples/actions?query=workflow%3A%22Java+CI+with+Gradle%22)
-========================================
+# Chunk Example
 
-Simple examples for [Doma](https://github.com/domaframework/doma).
-
-This repository includes the following examples:
-
-* [dao-style-basic](dao-style-basic) - Shows basic DAO style. Written in Java 8.
-* [dao-style-file](dao-style-file) - Uses files to store SQL templates. Written in Java 8.
-* [dao-style-text](dao-style-text) - Uses Text Blocks to store SQL templates. Written in Java 15.
-* [dsl-style-java](dsl-style-java) - Uses the Criteria API. Written in Java 8.
-* [dsl-style-kotlin](dsl-style-kotlin) - Uses the Kotlin Criteria API. Written in Kotlin 1.6.0-RC.
-
-Clone this repository
----------------------
-
-```bash
-$ git clone https://github.com/domaframework/simple-examples.git
-$ cd simple-examples
-```
+* [next-data-chunk](next-data-chunk)
+  * chunk の仕組みを実現する際の共通処理やデータ class です
+  * [Doma2](https://github.com/domaframework/doma)を使用することを前提にしていますが、ライブラリには依存しないようにしています
+* [next-data-chunk-examples](next-data-chunk-examples)
+  * 実際に組み込む時のサンプルです
 
 Format
 -----

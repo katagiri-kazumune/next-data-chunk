@@ -18,22 +18,7 @@ WHERE
         /*%end*/
     /*%end*/
 
-ORDER BY f.fruit_id
-    /*%if chunkable.direction == null || "ASC".equals(chunkable.direction) */
-        /*%if chunkable.before == null */
-            ASC
-        /*%else*/
-            DESC
-        /*%end*/
-    /*%end*/
-
-    /*%if "DESC".equals(chunkable.direction) */
-        /*%if chunkable.before != null */
-            ASC
-        /*%else*/
-            DESC
-        /*%end*/
-    /*%end*/
+ORDER BY f.fruit_id /*#chunkable.sortOrder*/
 
 LIMIT
 /*%if chunkable.size != null */

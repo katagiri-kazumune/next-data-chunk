@@ -11,11 +11,17 @@ public class ChunkableSqlParameter {
 
   public static final PaginationTokenEncoder ENCODER = new PaginationTokenEncoder();
 
+  /** 指定したソート順. */
   String direction;
+  /** prev 時に使用する ID 項目の値. */
   String before;
+  /** next 時に使用する ID 項目の値. */
   String after;
+  /** chunk に含む最大要素数. */
   int size;
-
+  /** 発行する SQL でのソート順. */
+  String sortOrder;
+  
   public static ChunkableSqlParameter of(Chunkable chunkable) {
 
     var ascending = chunkable.getDirection() == null || chunkable.getDirection() == Direction.ASC;
@@ -36,7 +42,17 @@ public class ChunkableSqlParameter {
     if (ascending == false) {
       direction = chunkable.getDirection().name();
     }
-    return new ChunkableSqlParameter(direction, before, after, chunkable.getMaxPageSize());
+    return new ChunkableSqlParameter(direction, before, after, chunkable.getMaxPageSize(), buildSortOrder(before, direction));
+  }
+
+  private static String buildSortOrder(String before, String direction) {
+    if(direction == null || Objects.equals(direction, "ASC")) {
+      // direction が ASC 相当
+      return before == null ? "ASC" : "DESC";
+    }
+    
+    // direction が DESC 相当
+    return before != null ? "ASC" : "DESC";
   }
 
   private static boolean isForward(PaginationRelation paginationRelation) {
