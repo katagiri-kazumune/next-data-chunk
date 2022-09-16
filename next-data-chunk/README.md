@@ -20,3 +20,7 @@ chunk で絞り込みやソート順に使う key は、
 - ChunkUtils
   - MSC 側で使用する Utils
   - dao のレスポンスを元に Chunk を返します
+
+# memo
+
+next だけで良いならもう少し簡単になります。

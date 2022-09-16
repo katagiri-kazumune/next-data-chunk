@@ -4,8 +4,9 @@
 用意するのは以下の通りです。
 
 * Dao(FruitDao)
-  * SQL を発行する。できれば 2Way SQL の方が組み込みやすそう
-  * chunk のサンプルは FruitDao#chunk
+  * ChunkableSqlParameter を受け取って SQL を発行する
+    * ChunkableSqlParameter の他にパラメータがあっても問題ないです
+  * chunk のサンプルは FruitDao#chunk(ChunkableSqlParameter)
 * Repository(FruitRepository)
   * Dao の呼び出しや結果を加工するのを責務とする
   * Service から呼ばれることを想定(Service は Dao を意識しない)
@@ -28,4 +29,4 @@ ORDER BY f.fruit_id /*#chunkable.sortOrder*/
 LIMIT /*chunkable.size*/10
 ```
 
-chunkable は、chunk 形式で取得する時の Dao のパラメータ(ChunkableSqlParameter)と名前をあわせてください。
+SQL に埋め込む変数名 `chunkable` は、chunk 形式で取得する時の Dao のパラメータ(ChunkableSqlParameter)と名前をあわせてください。
